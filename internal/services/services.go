@@ -6,5 +6,5 @@ type Services interface {
 	SaveMahasiswaAlamat(req *dto.MahasiswaReqDTO) error
 	SaveAlamatId(req *dto.AlamatIdReqDTO) error
 	UpdateMahasiswaNama(req *dto.UpadeMahasiswaNamaReqDTO) error
-	ShowAllMahasiswaAlamat() (string, error)
+	ShowAllMahasiswaAlamat() ([]*dto.MahasiswaAlamatResDTO, error)
 }

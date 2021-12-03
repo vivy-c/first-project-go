@@ -1,8 +1,11 @@
 package http
 
 import (
+
+	"fmt"
 	"net/http"
 	"os"
+	"reflect"
 
 	"github.com/apex/log"
 	"github.com/vivy-c/first-project-go/internal/services"
@@ -103,13 +106,19 @@ func (h *HttpHandler) SaveAlamatId(c echo.Context) error {
 			Data:    nil,
 		})
 	}
+	var resp = dto.ResponseDTO{
+		Success: true,
+		Message: mhsConst.SaveSuccess,
+		Data:    nil,
+	}
 
-	return c.JSON(http.StatusOK, nil)
+	return c.JSON(http.StatusOK, resp)
 }
 
 func (h *HttpHandler) UpdateMahasiswa(c echo.Context) error {
 	patchDTO := dto.UpadeMahasiswaNamaReqDTO{}
-	if err := c.Bind(&patchDTO); err != nil {
+	fmt.Println("type : ", reflect.TypeOf(patchDTO).Kind())
+	if err := c.Bind(&patchDTO); err != nil { //bind = req ke variabel
 		log.Error(err.Error())
 		return c.NoContent(http.StatusBadRequest)
 	}
@@ -144,12 +153,12 @@ func (h *HttpHandler) UpdateMahasiswa(c echo.Context) error {
 }
 
 func (h *HttpHandler) ShowAllMahasiswaAlamat(c echo.Context) error {
-	data, _ := h.service.ShowAllMahasiswaAlamat()
+	Data, _ := h.service.ShowAllMahasiswaAlamat()
 
 	var resp = dto.ResponseDTO{
 		Success: true,
-		Message: mhsConst.SaveSuccess,
-		Data:    data,
+		Message: mhsConst.GetDataSuccess,
+		Data:    Data,
 	}
 
 	return c.JSON(http.StatusOK, resp)
